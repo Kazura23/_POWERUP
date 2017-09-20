@@ -34,7 +34,8 @@ public class PlayerMovement : MonoBehaviour {
 
     public LayerMask groundMask;
 
-    private Rigidbody2D body;
+    [HideInInspector]
+    public Rigidbody2D body;
 
     public Animator animator;
 

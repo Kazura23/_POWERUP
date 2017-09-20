@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour {
 
     [HideInInspector]
     public GameObject TitleScreen, PowerUplogo, aGameBy;
+    public GameObject CharacterQuote; 
+    public SpriteRenderer powerUpScreen;
     private Text creditsCookiez, creditsFlo, creditsPietro, creditsTom;
 
     private Player player;
@@ -91,6 +93,14 @@ public class UIManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
-	}
+
+        Debug.Log(GameManager.Singleton.player.transform.position);
+
+        Vector2 tmpPos = GameManager.Singleton.player.transform.position;
+        tmpPos.y -= 1;
+        CharacterQuote.transform.position = tmpPos;
+
+        //CharacterQuote.transform.DOMove(GameManager.Singleton.player.transform.position,0);
+        //TitleScreen.transform.position = 
+    }
 }

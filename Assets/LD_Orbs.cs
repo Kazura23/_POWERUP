@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Com.LuisPedroFonseca.ProCamera2D;
 
 public class LD_Orbs : MonoBehaviour {
 
@@ -41,6 +42,24 @@ public class LD_Orbs : MonoBehaviour {
 
     void OnTakenOrb(int orb)
     {
+        ProCamera2D.Instance.Zoom(-2.2f, .5f);
+        ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(false, 0);
+        PlayerMovement.Singleton.body.constraints = RigidbodyConstraints2D.FreezeAll;
+        //DOTween.PauseAll();
+        UIManager.Singleton.powerUpScreen.GetComponent<RainbowColor>().enabled = true;
+
+        DOVirtual.DelayedCall(3f, () => {
+
+            UIManager.Singleton.powerUpScreen.GetComponent<RainbowColor>().enabled = false;
+
+            ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(true, 0);
+            PlayerMovement.Singleton.body.constraints = RigidbodyConstraints2D.None;
+            ProCamera2D.Instance.Zoom(2.2f, .3f);
+            DOTween.PlayAll();
+
+        });
+
+
         if(orb == 1)
         {
 
