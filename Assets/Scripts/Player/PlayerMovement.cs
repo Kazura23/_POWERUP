@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour {
     public float StunDuration;
 
     [HideInInspector]
-    public bool IsFlipped, IsStuned;
+    public bool IsFlipped, IsStuned, quitWindow;
     private bool Grounded;
     [HideInInspector]
     public float Side;
@@ -39,8 +39,8 @@ public class PlayerMovement : MonoBehaviour {
 
     public Animator animator;
 
-    private bool canJump, started;
-
+    private bool canJump = true, started;
+    
     private float stockedSpeed;
 
     public void Reset()
@@ -105,8 +105,10 @@ public class PlayerMovement : MonoBehaviour {
 
     public void Jump()
     {
-        if ((JumpNumber < JumpMax && JumpNumber == 0 && canJump) || (JumpNumber == 1 && !canJump && JumpNumber < JumpMax))
+        if ((JumpNumber < JumpMax && JumpNumber == 0 ) || (JumpNumber == 1  && JumpNumber < JumpMax))
         {
+
+            
             canJump = false;
             SpeedIncrease = JumpIncreaseSpeed;
             Vector2 veloce = body.velocity;
@@ -121,7 +123,9 @@ public class PlayerMovement : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        if(body.velocity.x > MaxSpeed)
+        Debug.Log("canjump + " + canJump);
+
+        if (body.velocity.x > MaxSpeed)
         {
             body.velocity = new Vector3(MaxSpeed, body.velocity.y);
             animator.SetBool("Moving", true);
@@ -162,9 +166,12 @@ public class PlayerMovement : MonoBehaviour {
         var leftBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, dist)).x;
         var rightBorder = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, dist)).x;
 
-        Vector3 tmpPos = transform.position;
-        tmpPos.x = Mathf.Clamp(transform.position.x, leftBorder, rightBorder);
-        transform.position = tmpPos;
+        if (!quitWindow)
+        {
+            Vector3 tmpPos = transform.position;
+            tmpPos.x = Mathf.Clamp(transform.position.x, leftBorder, rightBorder);
+            transform.position = tmpPos;
+        }
 
 
         // Debug.Log("JumpMax " + JumpMax);
@@ -180,9 +187,10 @@ public class PlayerMovement : MonoBehaviour {
         {
             if (col.transform.tag == "Ground")
             {
+                /*
                 DOVirtual.DelayedCall(JumpCooldown, () => {
                     canJump = true;
-                });
+                });*/
 
                 string ShakeName = "ShakeJump";
                 ProCamera2DShake.Instance.Shake(ShakeName);

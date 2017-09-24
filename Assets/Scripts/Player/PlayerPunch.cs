@@ -112,7 +112,7 @@ public class PlayerPunch : MonoBehaviour
         Color color = GetComponent<SpriteRenderer>().color;
         GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, 0.6f);
 
-        hit = Physics2D.BoxCast(transform.position, Vector2.one, 90, Vector2.one, 10, enemyMask);
+        hit = Physics2D.BoxCast(transform.position, Vector2.one, 90, Vector2.one, 0, enemyMask);
         
 
         if (hit.collider != null)
@@ -146,6 +146,8 @@ public class PlayerPunch : MonoBehaviour
         Color color = GetComponent<SpriteRenderer>().color;
         GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, 0.6f);
 
+        hit = Physics2D.BoxCast(transform.position, Vector2.one * 1.1f, 90, Vector2.one, 0, enemyMask);
+
         if (hit.collider != null)
         {
             if (hit.collider.gameObject.tag == "Enemy")
@@ -174,6 +176,8 @@ public class PlayerPunch : MonoBehaviour
         GetComponent<SpriteRenderer>().color = Color.red;
         Color color = GetComponent<SpriteRenderer>().color;
         GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, 0.6f);
+
+        hit = Physics2D.BoxCast(transform.position, Vector2.one * 1.2f, 90, Vector2.one, 0, enemyMask);
 
         if (hit.collider != null)
         {

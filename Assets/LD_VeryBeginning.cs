@@ -40,30 +40,19 @@ public class LD_VeryBeginning : MonoBehaviour {
         PlayerMovement.Singleton.transform.DOMoveX(PlayerMovement.Singleton.transform.position.x + 3f, 1.5f).SetEase(Ease.InElastic, - 1, .5f).OnComplete(() => {
             string ShakeName = "ShakeKill";
             ProCamera2DShake.Instance.Shake(ShakeName);
-            UIManager.Singleton.CharacterQuote.SetActive(true);
+            UIManager.Singleton.QuoteCharacterStart();
             DOVirtual.DelayedCall(1, () => {
                 GameManager.Singleton.CanPlay = true;
                 DOVirtual.DelayedCall(3.5f, () => {
 
-                    QuoteCharacterStop();
+                   UIManager.Singleton.QuoteCharacterStop();
                     
                 });
             });
         }); 
     }
 
-    void QuoteCharacterStart()
-    {
-
-    }
-
-    void QuoteCharacterStop()
-    {
-        UIManager.Singleton.CharacterQuote.GetComponent<RainbowColor>().enabled = false;
-        UIManager.Singleton.CharacterQuote.GetComponent<Text>().DOFade(0, .3f).OnComplete(()=> {
-            UIManager.Singleton.CharacterQuote.SetActive(false);
-        });
-    }
+    
 	
 	// Update is called once per frame
 	void Update () {

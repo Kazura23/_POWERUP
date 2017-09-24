@@ -46,55 +46,77 @@ public class UIManager : MonoBehaviour {
 
         player = ReInput.players.GetPlayer(0);
 
+        
+
     }
 
     void Start () {
 
-        AudioManager.Singleton.GetComponentsInChildren<AudioSource>()[0].volume = .2f;
+        if(GameObject.Find("VeryBeginning") != null)
+        {
 
-        TitleScreen.GetComponent<CanvasGroup>().DOFade(1, 1.5f);
+            AudioManager.Singleton.GetComponentsInChildren<AudioSource>()[0].volume = .2f;
 
-        DOVirtual.DelayedCall(2.5f, () => {
-            
-            //aGameBy.transform.DOLocalMoveX(-10, 0);
-            aGameBy.GetComponent<Text>().DOFade(1, .35f).OnComplete(()=> {
-                DOVirtual.DelayedCall(.3f, () =>
-                {
-                    creditsCookiez.transform.DOLocalMoveY(20, 0);
-                    creditsCookiez.transform.DOLocalMoveY(-125, 0.2f).SetEase(Ease.InBounce);
-                    creditsCookiez.GetComponent<RainbowColor>().enabled = true;
-                    creditsCookiez.DOFade(1, .2f);
-                    DOVirtual.DelayedCall(.25f, () =>
+            TitleScreen.GetComponent<CanvasGroup>().DOFade(1, 1.5f);
+
+            DOVirtual.DelayedCall(2.5f, () => {
+
+                //aGameBy.transform.DOLocalMoveX(-10, 0);
+                aGameBy.GetComponent<Text>().DOFade(1, .35f).OnComplete(() => {
+                    DOVirtual.DelayedCall(.3f, () =>
                     {
-                        creditsFlo.transform.DOLocalMoveY(20, 0);
-                        creditsFlo.transform.DOLocalMoveY(-125, 0.2f).SetEase(Ease.InBounce);
-                        creditsFlo.GetComponent<RainbowColor>().enabled = true;
-                        creditsFlo.DOFade(1, .2f);
+                        creditsCookiez.transform.DOLocalMoveY(20, 0);
+                        creditsCookiez.transform.DOLocalMoveY(-125, 0.2f).SetEase(Ease.InBounce);
+                        creditsCookiez.GetComponent<RainbowColor>().enabled = true;
+                        creditsCookiez.DOFade(1, .2f);
                         DOVirtual.DelayedCall(.25f, () =>
                         {
-                            creditsPietro.transform.DOLocalMoveY(20, 0);
-                            creditsPietro.transform.DOLocalMoveY(-125, 0.2f).SetEase(Ease.InBounce);
-                            creditsPietro.GetComponent<RainbowColor>().enabled = true;
-                            creditsPietro.DOFade(1, .2f);
+                            creditsFlo.transform.DOLocalMoveY(20, 0);
+                            creditsFlo.transform.DOLocalMoveY(-125, 0.2f).SetEase(Ease.InBounce);
+                            creditsFlo.GetComponent<RainbowColor>().enabled = true;
+                            creditsFlo.DOFade(1, .2f);
                             DOVirtual.DelayedCall(.25f, () =>
                             {
-                                creditsTom.transform.DOLocalMoveY(20, 0);
-                                creditsTom.transform.DOLocalMoveY(-125, 0.2f).SetEase(Ease.InBounce);
-                                creditsTom.GetComponent<RainbowColor>().enabled = true;
-                                creditsTom.DOFade(1, .2f);
+                                creditsPietro.transform.DOLocalMoveY(20, 0);
+                                creditsPietro.transform.DOLocalMoveY(-125, 0.2f).SetEase(Ease.InBounce);
+                                creditsPietro.GetComponent<RainbowColor>().enabled = true;
+                                creditsPietro.DOFade(1, .2f);
+                                DOVirtual.DelayedCall(.25f, () =>
+                                {
+                                    creditsTom.transform.DOLocalMoveY(20, 0);
+                                    creditsTom.transform.DOLocalMoveY(-125, 0.2f).SetEase(Ease.InBounce);
+                                    creditsTom.GetComponent<RainbowColor>().enabled = true;
+                                    creditsTom.DOFade(1, .2f);
+                                });
                             });
                         });
                     });
+
                 });
-
             });
-        });
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        }
 
-        Debug.Log(GameManager.Singleton.player.transform.position);
+	}
+
+    public void QuoteCharacterStart()
+    {
+        UIManager.Singleton.CharacterQuote.SetActive(true);
+        DOVirtual.DelayedCall(3f, () => {
+            QuoteCharacterStop();
+        });
+    }
+
+    public void QuoteCharacterStop()
+    {
+        UIManager.Singleton.CharacterQuote.GetComponent<RainbowColor>().enabled = false;
+        UIManager.Singleton.CharacterQuote.GetComponent<Text>().DOFade(0, .3f).OnComplete(() => {
+            UIManager.Singleton.CharacterQuote.SetActive(false);
+        });
+    }
+
+    // Update is called once per frame
+    void Update () {
+        
 
         Vector2 tmpPos = GameManager.Singleton.player.transform.position;
         tmpPos.y -= 1;

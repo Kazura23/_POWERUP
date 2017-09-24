@@ -141,6 +141,19 @@ public class Enemy : MonoBehaviour
         //Debug.Log("Searching +" + Searching);
         //Debug.Log("Attack Charge +" + AttackCharge);
 
+
+        if (Life <= 0)
+        {
+            if (LevelEvents.Singleton != null)
+                LevelEvents.Singleton.zoneNumberEnemies += 1;
+
+            string ShakeName = "ShakeKill";
+            ProCamera2DShake.Instance.Shake(ShakeName);
+
+            Destroy(transform.gameObject);
+        }
+
+
         if (PlayerMovement.Singleton.transform.position.x > transform.position.x)
         {
             Side = 1f;
@@ -314,16 +327,6 @@ public class Enemy : MonoBehaviour
         }*/
 
 
-        if (Life <= 0)
-        {
-            if (LevelEvents.Singleton != null)
-                LevelEvents.Singleton.zoneNumberEnemies += 1;
-
-            string ShakeName = "ShakeKill";
-            ProCamera2DShake.Instance.Shake(ShakeName);
-
-            Destroy(transform.gameObject);
-        }
 
         //Debug.Log(Life);
 
@@ -375,6 +378,8 @@ public class Enemy : MonoBehaviour
 
     public void TakeHit()
     {
+        
+
         string ShakeName = "ShakeHit";
         ProCamera2DShake.Instance.Shake(ShakeName);
 
@@ -405,6 +410,23 @@ public class Enemy : MonoBehaviour
         //transform.DOPunchScale(Vector3.one * 7f, .25f, 10, 1);
 
         transform.DOPunchScale(Vector3.one * .15f, .08f, 10, 90);
+
+        if (Life > 0)
+        {
+            GetComponentInChildren<SpriteRenderer>().color = new Color32(0xca, 0x23, 0x23, 0xff);
+            ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(false, 0);
+            //Time.timeScale = 0;
+            DOTween.PauseAll();
+
+            DOVirtual.DelayedCall(.1f, () => {
+
+                ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(true, 0);
+                GetComponentInChildren<SpriteRenderer>().color = Color.white;
+                DOTween.PlayAll();
+                //Time.timeScale = 1;
+            });
+        }
+        
     }
 
     void OnCollisionStay2D(Collision2D col)
