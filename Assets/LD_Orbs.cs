@@ -15,7 +15,18 @@ public class LD_Orbs : MonoBehaviour {
 
 
     public Tween zoomTw;
-    
+
+    public Transform CameraTarget;
+
+    [Header("ORB EFFECT")]
+    public float zoomTime = .2f;
+    public float colorSwitchTime = .2f;
+
+    [Header("CHARACTER PROPERTIES CHANGES")]
+    public float damageMultiplier;
+    public float SpeedMultiplier;
+    //public float newJumpSpeed;
+    public int newJumpNumberMax;
 
     [HideInInspector]
     public bool quitWindow;
@@ -36,10 +47,8 @@ public class LD_Orbs : MonoBehaviour {
 	void Update () {
         //DEV COMMANDS
 
-        if (Input.GetKeyDown("a"))
+        if ((Input.GetKeyDown("a") && orbNumber == 1) || (Input.GetKeyDown("z") && orbNumber == 2) || (Input.GetKeyDown("e") && orbNumber == 3) || (Input.GetKeyDown("r") && orbNumber == 4))
         {
-            if (orbNumber == 1)
-            {
                 PlayerMovement.Singleton.quitWindow = true;
 
                 DOVirtual.DelayedCall(.1f, () => {
@@ -50,29 +59,7 @@ public class LD_Orbs : MonoBehaviour {
                         PlayerMovement.Singleton.quitWindow = false;
                     });
                 });
-
-                
-            }
-        }
-
-        if (Input.GetKeyDown("e"))
-        {
-            if (orbNumber == 3)
-            {
-
-                PlayerMovement.Singleton.quitWindow = true;
-
-                DOVirtual.DelayedCall(.1f, () => {
-
-                    Vector2 tmpPos = transform.position;
-                    GameManager.Singleton.player.transform.position = tmpPos;
-                    DOVirtual.DelayedCall(.1f, () => {
-                        PlayerMovement.Singleton.quitWindow = false;
-                    });
-                });
-
-                
-            }
+            
         }
     }
 
@@ -98,41 +85,61 @@ public class LD_Orbs : MonoBehaviour {
     void Zoom()
     {
         if (canZoom)
-            ProCamera2D.Instance.Zoom(-.2f, .2f);
-        
-            zoomTw = DOVirtual.DelayedCall(.2f, () => {
-                if (canZoom)
-                    ProCamera2D.Instance.Zoom(.1f, .2f);
-            zoomTw = DOVirtual.DelayedCall(.2f, () => {
+            GameManager.Singleton.mainCamera.DOOrthoSize(3.5f - .2f, zoomTime);
+
+
+            zoomTw = DOVirtual.DelayedCall(zoomTime, () => {
+                if (canZoom) { 
+                    GameManager.Singleton.mainCamera.DOOrthoSize(3.5f + .2f, zoomTime);
+                zoomTw = DOVirtual.DelayedCall(zoomTime, () => {
                 if(canZoom)
                 Zoom();
+
+                    });
+                }
             });
-        });
 
     }
     void OnTakenOrb(int orb)
     {
         zoomTw.Kill(false);
-        ProCamera2D.Instance.Zoom(-2.2f, .5f);
-        
-        ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(false, 0);
+        //ProCamera2D.Instance.Zoom(-2.2f, .5f);
+        GameManager.Singleton.mainCamera.DOOrthoSize(3.5f, .5f).SetEase(Ease.Linear);
+
+        ProCamera2D.Instance.RemoveCameraTarget(CameraTarget, 0);
+
+        GameManager.Singleton.CanPlay = false;
+        //ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(false, 0);
         PlayerMovement.Singleton.body.constraints = RigidbodyConstraints2D.FreezeAll;
         //DOTween.PauseAll();
         UIManager.Singleton.powerUpScreen.GetComponent<RainbowColor>().enabled = true;
+        UIManager.Singleton.powerUpScreen.GetComponent<RainbowColor>().time = colorSwitchTime;
         DOVirtual.DelayedCall(.5f, () => {
+            Debug.Log("Zoom");
             canZoom = true;
             Zoom();
         });
+
+
+        //PLAYER GETS NEW PROPERTIES
+
+        PlayerMovement.Singleton.SpeedMultiplier = SpeedMultiplier;
+        PlayerMovement.Singleton.JumpMax = newJumpNumberMax;
+        PlayerPunch.Singleton.HitlvlDamage[0] *= damageMultiplier;
+        PlayerPunch.Singleton.HitlvlDamage[1] *= damageMultiplier;
+        PlayerPunch.Singleton.HitlvlDamage[2] *= damageMultiplier;
+
 
 
         DOVirtual.DelayedCall(3f, () => {
 
             canZoom = false;
             UIManager.Singleton.powerUpScreen.GetComponent<RainbowColor>().enabled = false;
-            UIManager.Singleton.powerUpScreen.DOFade(0, .1f);
+            UIManager.Singleton.powerUpScreen.DOFade(0, colorSwitchTime * 5f);
             
             GameManager.Singleton.mainCamera.DOOrthoSize(5.76f, .5f).SetEase(Ease.InElastic).OnComplete(()=> {
-                ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(true, 0);
+                //ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(true, 0);
+                GameManager.Singleton.CanPlay = true;
                 PlayerMovement.Singleton.body.constraints = RigidbodyConstraints2D.FreezeRotation;
                 DOTween.PlayAll();
 
@@ -156,7 +163,7 @@ public class LD_Orbs : MonoBehaviour {
 
             //PLAYER PROPERTIES
             PlayerMovement.Singleton.JumpMax = 3;
-            //PlayerMovement.Singleton.SpeedIncrease =
+            //APlayerMovement.Singleton.SpeedIncrease =
 
 
 

@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour {
 
     public GameObject UIObject;
 
+    public string quoteText;
+
     [HideInInspector]
     public GameObject TitleScreen, PowerUplogo, aGameBy;
     public GameObject CharacterQuote; 
@@ -100,6 +102,7 @@ public class UIManager : MonoBehaviour {
 
     public void QuoteCharacterStart()
     {
+        CharacterQuote.GetComponent<Text>().text = quoteText;
         UIManager.Singleton.CharacterQuote.SetActive(true);
         DOVirtual.DelayedCall(3f, () => {
             QuoteCharacterStop();

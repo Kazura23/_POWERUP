@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour {
 
     [Header("SPEED")]
     public float SpeedIncrease;
+    [HideInInspector]
+    public float SpeedMultiplier = 1;
     public float MaxSpeed;
     [Header("JUMP")]
     public int JumpMax;
@@ -59,7 +61,7 @@ public class PlayerMovement : MonoBehaviour {
 
         animator = GetComponent<Animator>();
 
-        stockedSpeed = SpeedIncrease;
+        stockedSpeed = SpeedIncrease * SpeedMultiplier;
     }
 	
     void Start()
@@ -73,34 +75,40 @@ public class PlayerMovement : MonoBehaviour {
     public void MoveRight()
     {
         IsFlipped = false;
-        body.velocity = new Vector3(1f * SpeedIncrease, body.velocity.y);
+        body.velocity = new Vector3(1f * SpeedIncrease * SpeedMultiplier, body.velocity.y);
         Side = 1f;
     }
 
     public void MoveLeft()
     {
         IsFlipped = true;
-        body.velocity = new Vector3(-1f * SpeedIncrease, body.velocity.y);
+        body.velocity = new Vector3(-1f * SpeedIncrease * SpeedMultiplier, body.velocity.y);
         Side = -1f;
     }
 
     public void Stun()
     {
-        body.constraints = RigidbodyConstraints2D.FreezePositionX;
-        ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(false, 0);
-        IsStuned = true;
-        transform.GetComponent<BoxCollider2D>().enabled = false;
-        transform.DOMoveY(0,.1f).OnComplete(() => {
-            body.constraints = RigidbodyConstraints2D.FreezeAll;
-        });
-        
-        DOVirtual.DelayedCall(StunDuration, () =>
+        if (GameManager.Singleton.CanPlay)
         {
-            IsStuned = false;
-            transform.GetComponent<BoxCollider2D>().enabled = true;
-            body.constraints = RigidbodyConstraints2D.FreezeRotation;
-            ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(true, 0);
-        });
+            GetComponentsInChildren<SpriteRenderer>()[0].DOFade(.5f, 1f);
+            body.constraints = RigidbodyConstraints2D.FreezePositionX;
+            ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(false, 0);
+            IsStuned = true;
+            transform.GetComponent<BoxCollider2D>().enabled = false;
+            transform.DOMoveY(0, .1f).OnComplete(() => {
+                body.constraints = RigidbodyConstraints2D.FreezeAll;
+            });
+
+            DOVirtual.DelayedCall(StunDuration, () =>
+            {
+                GetComponentsInChildren<SpriteRenderer>()[0].DOFade(1f, .5f);
+                IsStuned = false;
+                transform.GetComponent<BoxCollider2D>().enabled = true;
+                body.constraints = RigidbodyConstraints2D.FreezeRotation;
+                ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(true, 0);
+            });
+        }
+        
     }
 
     public void Jump()
@@ -110,7 +118,7 @@ public class PlayerMovement : MonoBehaviour {
 
             
             canJump = false;
-            SpeedIncrease = JumpIncreaseSpeed;
+            SpeedIncrease = JumpIncreaseSpeed * SpeedMultiplier;
             Vector2 veloce = body.velocity;
             veloce.y = 0;
             body.velocity = veloce;
@@ -123,8 +131,8 @@ public class PlayerMovement : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        Debug.Log("canjump + " + canJump);
-
+        
+        
         if (body.velocity.x > MaxSpeed)
         {
             body.velocity = new Vector3(MaxSpeed, body.velocity.y);
@@ -198,9 +206,9 @@ public class PlayerMovement : MonoBehaviour {
                 Debug.Log(stockedSpeed);
 
                 //float tmpSpeed;
-                SpeedIncrease = DOVirtual.EasedValue(stockedSpeed, stockedSpeed / 12, .25f, Ease.Linear);
+                SpeedIncrease = DOVirtual.EasedValue(stockedSpeed * SpeedMultiplier, stockedSpeed / 12 * SpeedMultiplier, .25f, Ease.Linear);
                 DOVirtual.DelayedCall(.4f, () => {
-                    SpeedIncrease = DOVirtual.EasedValue(stockedSpeed, stockedSpeed, .15f, Ease.Linear);
+                    SpeedIncrease = DOVirtual.EasedValue(stockedSpeed * SpeedMultiplier, stockedSpeed * SpeedMultiplier, .15f, Ease.Linear);
                 });
             }
         }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 using DG.Tweening;
+using Com.LuisPedroFonseca.ProCamera2D;
+using UnityEngine.UI;
 
 public class LD_PowerMode : MonoBehaviour {
 
@@ -18,6 +20,10 @@ public class LD_PowerMode : MonoBehaviour {
     public GameObject platformFirst;
     public Transform platformsContainer;
     public Transform platformGround;
+    public Transform rocksContainer;
+    public BoxCollider2D endPowerMode;
+
+    private Tween rocksTw;
 
     void Awake()
     {
@@ -75,9 +81,59 @@ public class LD_PowerMode : MonoBehaviour {
 
     }
 
+    public void PowerModeEnd()
+    {
+        GameManager.Singleton.mainCamera.DOOrthoSize(3.5f, 1.5f);
+        ProCamera2D.Instance.FollowHorizontal = true;
+        ProCamera2D.Instance.RemoveCameraTarget(powerMode.transform.GetChild(0).transform);
+        ProCamera2D.Instance.AdjustCameraTargetInfluence(GameManager.Singleton.player.transform, 1, 1);
+        ProCamera2D.Instance.OffsetY = -.6f;
+        GameManager.Singleton.CanPlay = false;
+        PlayerMovement.Singleton.GetComponentInChildren<RainbowRotate>().enabled = true;
+        rocksTw.Kill();
+
+        foreach(Transform rock in rocksContainer)
+        {
+            Destroy(rock.gameObject);
+        }
+
+        DOVirtual.DelayedCall(3f, () =>
+        {
+            GameManager.Singleton.mainCamera.DOOrthoSize(5.76f, .9f).SetEase(Ease.InElastic);
+            ProCamera2D.Instance.OffsetY = 0;
+            DOVirtual.DelayedCall(.2f, () => {
+                GameManager.Singleton.CanPlay = true;
+                ProCamera2D.Instance.FollowVertical = false;
+            });
+            PlayerMovement.Singleton.GetComponentInChildren<RainbowRotate>().enabled = false;
+            PlayerMovement.Singleton.GetComponentsInChildren<SpriteRenderer>()[0].transform.DOLocalRotate(Vector3.zero, 0);
+            
+            UIManager.Singleton.QuoteCharacterStart();
+            UIManager.Singleton.CharacterQuote.GetComponent<Text>().text = "...";
+
+        });
+
+        foreach (BoxCollider2D box in powerMode.GetComponentsInChildren<BoxCollider2D>())
+        {
+            box.enabled = false;
+        }
+
+        GameObject powerBg = powerMode.transform.GetChild(0).gameObject;
+        powerBg.GetComponent<SpriteRenderer>().DOFade(0, 3f);
+
+        foreach (SpriteRenderer spritePlat in platformsContainer.GetComponentsInChildren<SpriteRenderer>())
+        {
+            spritePlat.DOFade(0, 2f);
+        }
+
+
+    }
+
+
+
     void MoveRock()
     {
-        DOVirtual.DelayedCall(.6f, () => {
+        rocksTw = DOVirtual.DelayedCall(.6f, () => {
 
             var rock = Instantiate(rockObjects[UnityEngine.Random.Range(0, 4)], rocks.transform.localPosition, Quaternion.identity, rocks.transform);
             rock.transform.DOLocalMoveX(UnityEngine.Random.Range(-6.5f,6.5f), 0);
@@ -105,5 +161,9 @@ public class LD_PowerMode : MonoBehaviour {
         var dist = (transform.position - Camera.main.transform.position).z;
         var downBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, -1, dist)).y;
         platformGround.DOMoveY(downBorder,0);*/
+
+        
     }
+
+    
 }
