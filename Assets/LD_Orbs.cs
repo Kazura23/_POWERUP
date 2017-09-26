@@ -19,8 +19,10 @@ public class LD_Orbs : MonoBehaviour {
     public Transform CameraTarget;
 
     [Header("ORB EFFECT")]
+    public float fairyPosition;
     public float zoomTime = .2f;
     public float colorSwitchTime = .2f;
+    public float PowerUpDuration = 5;
 
     [Header("CHARACTER PROPERTIES CHANGES")]
     public float damageMultiplier;
@@ -120,6 +122,8 @@ public class LD_Orbs : MonoBehaviour {
             Zoom();
         });
 
+        float stockedWalkSpeed = PlayerMovement.Singleton.SpeedMultiplier;
+        int stockedJumpMax = PlayerMovement.Singleton.JumpMax;
 
         //PLAYER GETS NEW PROPERTIES
 
@@ -128,6 +132,9 @@ public class LD_Orbs : MonoBehaviour {
         PlayerPunch.Singleton.HitlvlDamage[0] *= damageMultiplier;
         PlayerPunch.Singleton.HitlvlDamage[1] *= damageMultiplier;
         PlayerPunch.Singleton.HitlvlDamage[2] *= damageMultiplier;
+
+
+        PlayerFairy.Singleton.transform.DOLocalMoveX(fairyPosition, 2);
 
 
 
@@ -145,8 +152,19 @@ public class LD_Orbs : MonoBehaviour {
 
                 UIManager.Singleton.QuoteCharacterStart();
                 UIManager.Singleton.CharacterQuote.GetComponent<Text>().text = "BADASS!!";
-                
-            });
+
+                DOVirtual.DelayedCall(PowerUpDuration, () =>
+                {
+
+                    //PLAYER GETS OLD PROPERTIES
+
+                    PlayerMovement.Singleton.SpeedMultiplier = stockedWalkSpeed;
+                    PlayerMovement.Singleton.JumpMax = stockedJumpMax;
+                    PlayerPunch.Singleton.HitlvlDamage[0] /= damageMultiplier;
+                    PlayerPunch.Singleton.HitlvlDamage[1] /= damageMultiplier;
+                    PlayerPunch.Singleton.HitlvlDamage[2] /= damageMultiplier;
+                    });
+                });
             
 
         });

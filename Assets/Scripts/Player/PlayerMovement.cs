@@ -77,6 +77,7 @@ public class PlayerMovement : MonoBehaviour {
         IsFlipped = false;
         body.velocity = new Vector3(1f * SpeedIncrease * SpeedMultiplier, body.velocity.y);
         Side = 1f;
+        //PlayerFairy.Singleton.transform.DOLocalMoveX(3, 0);
     }
 
     public void MoveLeft()
@@ -84,6 +85,7 @@ public class PlayerMovement : MonoBehaviour {
         IsFlipped = true;
         body.velocity = new Vector3(-1f * SpeedIncrease * SpeedMultiplier, body.velocity.y);
         Side = -1f;
+        //PlayerFairy.Singleton.transform.DOLocalMoveX(-3, 0);
     }
 
     public void Stun()

@@ -409,7 +409,7 @@ public class Enemy : MonoBehaviour
         });
         //transform.DOPunchScale(Vector3.one * 7f, .25f, 10, 1);
 
-        transform.DOPunchScale(Vector3.one * .15f, .08f, 10, 90);
+        transform.DOPunchScale(Vector3.one * .5f, .15f, 10, 90);
 
         if (Life > 0)
         {

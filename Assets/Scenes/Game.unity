@@ -2861,8 +2861,10 @@ MonoBehaviour:
   canZoom: 0
   powerMode: {fileID: 1384706167}
   CameraTarget: {fileID: 1263748838}
+  fairyPosition: 2
   zoomTime: 0.1
   colorSwitchTime: 0.1
+  PowerUpDuration: 15
   damageMultiplier: 1.3
   SpeedMultiplier: 1.2
   newJumpNumberMax: 1
@@ -4117,8 +4119,10 @@ MonoBehaviour:
   canZoom: 0
   powerMode: {fileID: 1384706167}
   CameraTarget: {fileID: 1891182750}
+  fairyPosition: 1
   zoomTime: 0.2
   colorSwitchTime: 0.2
+  PowerUpDuration: 15
   damageMultiplier: 1.1
   SpeedMultiplier: 1.1
   newJumpNumberMax: 1
@@ -10807,6 +10811,7 @@ GameObject:
   - component: {fileID: 866891172}
   - component: {fileID: 866891175}
   - component: {fileID: 866891174}
+  - component: {fileID: 866891171}
   - component: {fileID: 866891170}
   m_Layer: 9
   m_Name: ==> Character
@@ -10832,6 +10837,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &866891171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 866891169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70874f1bd653a404c9eedce8f5f88ff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &866891172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10935,6 +10951,7 @@ Transform:
   - {fileID: 1411536840}
   - {fileID: 1132587987}
   - {fileID: 579277901}
+  - {fileID: 1887453094}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18888,8 +18905,10 @@ MonoBehaviour:
   canZoom: 0
   powerMode: {fileID: 1384706167}
   CameraTarget: {fileID: 904194957}
+  fairyPosition: 3
   zoomTime: 0.05
   colorSwitchTime: 0.05
+  PowerUpDuration: 500
   damageMultiplier: 1.3
   SpeedMultiplier: 1.25
   newJumpNumberMax: 2
@@ -25040,6 +25059,107 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 5
+--- !u!1 &1887453093
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1887453094}
+  - component: {fileID: 1887453096}
+  - component: {fileID: 1887453095}
+  - component: {fileID: 1887453097}
+  m_Layer: 9
+  m_Name: Fairy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1887453094
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1887453093}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.45, y: -2.82, z: 0}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_Children: []
+  m_Father: {fileID: 866891177}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1887453095
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1887453093}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 9
+  m_Sprite: {fileID: 21300000, guid: 746ba7f573210fb4f9c6c6ab409eafed, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 7, y: 7}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+--- !u!114 &1887453096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1887453093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70874f1bd653a404c9eedce8f5f88ff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1887453097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1887453093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d66e95897310864b85ec28ea1ee4a6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 1
+  movesType: 0
+  moves:
+  - 0.3
+  - -0.3
+  easeType: 1
 --- !u!1 &1889246571
 GameObject:
   m_ObjectHideFlags: 0

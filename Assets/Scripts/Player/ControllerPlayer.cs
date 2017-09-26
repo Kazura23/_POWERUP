@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
+using DG.Tweening;
 
 public class ControllerPlayer : MonoBehaviour {
 
@@ -35,8 +36,11 @@ public class ControllerPlayer : MonoBehaviour {
 
         
 
-        if (player.GetButton("Left")) 
+        if (player.GetButton("Left"))
+        {
             PlayerMovement.Singleton.MoveRight();
+        }
+            
         else if (player.GetButton("Right"))
         {
             PlayerMovement.Singleton.MoveLeft();
