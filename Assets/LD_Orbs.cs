@@ -7,7 +7,17 @@ using UnityEngine.UI;
 
 public class LD_Orbs : MonoBehaviour {
 
+    
+    public enum TransformationType
+    {
+        Dead,
+        Normal,
+        Super
+    }
+
     public int orbNumber;
+
+    public TransformationType transformation;
 
     public bool canZoom;
 
@@ -33,6 +43,8 @@ public class LD_Orbs : MonoBehaviour {
     [HideInInspector]
     public bool quitWindow;
 
+    private Animator animator;
+
 	// Use this for initialization
 	void Awake () {
         GetComponent<RainbowColor>().enabled = false;
@@ -42,7 +54,8 @@ public class LD_Orbs : MonoBehaviour {
     {
         Destroy(GameObject.Find("PC2DPanTarget"));
 
-        
+
+        animator = PlayerMovement.Singleton.GetComponent<Animator>();
     }
 	
 	// Update is called once per frame
@@ -104,6 +117,35 @@ public class LD_Orbs : MonoBehaviour {
     }
     void OnTakenOrb(int orb)
     {
+
+
+        if(transformation == TransformationType.Dead)
+        {
+            animator.SetBool("Mode_Super", false);
+            animator.SetBool("Mode_Normal", false);
+            animator.SetBool("Mode_Dead", true);
+        }
+
+        if (transformation == TransformationType.Normal)
+        {
+            animator.SetBool("Mode_Super", false);
+            animator.SetBool("Mode_Dead", false);
+            animator.SetBool("Mode_Normal", true);
+            PlayerMovement.Singleton.GetComponent<BoxCollider2D>().size = new Vector2(1.05f, 1.35f);
+        }
+
+        if (transformation == TransformationType.Super)
+        {
+            animator.SetBool("Mode_Dead", false);
+            animator.SetBool("Mode_Normal", false);
+            animator.SetBool("Mode_Super", true);
+            PlayerMovement.Singleton.animator.SetTrigger("Transfo_NormalToStrong");
+            PlayerMovement.Singleton.GetComponent<BoxCollider2D>().size = new Vector2(2.4f, 1.75f);
+            PlayerMovement.Singleton.GetComponent<BoxCollider2D>().offset = new Vector2(0, -2.5f);
+        }
+
+
+
         zoomTw.Kill(false);
         //ProCamera2D.Instance.Zoom(-2.2f, .5f);
         GameManager.Singleton.mainCamera.DOOrthoSize(3.5f, .5f).SetEase(Ease.Linear);
@@ -172,7 +214,6 @@ public class LD_Orbs : MonoBehaviour {
 
         if(orb == 1)
         {
-            PlayerMovement.Singleton.animator.SetTrigger("Transfo_NormalToStrong");
 
         }
 
@@ -196,10 +237,8 @@ public class LD_Orbs : MonoBehaviour {
             {
                 ProCamera2D.Instance.RemoveAllCameraTargets();
                 GameManager.Singleton.mainCamera.DOOrthoSize(7, 1f).SetEase(Ease.InBounce);
-                ProCamera2D.Instance.AddCameraTarget(powerMode.transform.GetChild(0).transform);
-                ProCamera2D.Instance.AddCameraTarget(GameManager.Singleton.player.transform);
-                ProCamera2D.Instance.AdjustCameraTargetInfluence(powerMode.transform.GetChild(0).transform, 1, 0);
-                ProCamera2D.Instance.AdjustCameraTargetInfluence(GameManager.Singleton.player.transform, 0, 1);
+                ProCamera2D.Instance.AddCameraTarget(powerMode.transform.GetChild(0).transform,1,0);
+                ProCamera2D.Instance.AddCameraTarget(GameManager.Singleton.player.transform,0,1,0,new Vector2(.36f,1));
                 ProCamera2D.Instance.FollowVertical = true;
 
                 powerBg.transform.DOLocalMoveY(159.8f, 2.5f).SetEase(Ease.Linear).OnComplete(() =>

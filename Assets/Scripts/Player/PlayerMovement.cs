@@ -202,8 +202,17 @@ public class PlayerMovement : MonoBehaviour {
                     canJump = true;
                 });*/
 
-                string ShakeName = "ShakeJump";
-                ProCamera2DShake.Instance.Shake(ShakeName);
+                if (animator.GetBool("Mode_Normal"))
+                {
+                    string ShakeName = "ShakeJump_Normal";
+                    ProCamera2DShake.Instance.Shake(ShakeName);
+                }
+
+                if (animator.GetBool("Mode_Super"))
+                {
+                    string ShakeName = "ShakeJump_Super";
+                    ProCamera2DShake.Instance.Shake(ShakeName);
+                }
 
                 Debug.Log(stockedSpeed);
 
@@ -213,6 +222,24 @@ public class PlayerMovement : MonoBehaviour {
                     SpeedIncrease = DOVirtual.EasedValue(stockedSpeed * SpeedMultiplier, stockedSpeed * SpeedMultiplier, .15f, Ease.Linear);
                 });
             }
+
+            
+           
+        }
+
+
+
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+
+        //Debug.Log(col);
+
+        if(col.tag == "Bullet")
+        {
+            Destroy(col.gameObject);
+            Stun();
         }
     }
 }

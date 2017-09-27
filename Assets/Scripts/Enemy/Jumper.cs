@@ -24,7 +24,7 @@ public class Jumper : MonoBehaviour
                 other.GetComponent<Rigidbody2D>().velocity = (Vector2.up * Force + new Vector2(PlayerMovement.Singleton.Side, 0) * Force * 2);
                 transform.parent.GetComponent<Enemy>().Life -= PlayerMovement.Singleton.JumpDamage;
 
-                string ShakeName = "ShakeHit";
+                string ShakeName = "ShakeHit_Normal";
                 ProCamera2DShake.Instance.Shake(ShakeName);
 
                 StopCoroutine(StopCooldown());
@@ -49,7 +49,7 @@ public class Jumper : MonoBehaviour
                 other.GetComponent<Rigidbody2D>().velocity = (Vector2.up * Force + new Vector2(PlayerMovement.Singleton.Side, 0) * Force * 2);
                 transform.parent.GetComponent<Enemy>().Life -= PlayerMovement.Singleton.JumpDamage;
 
-                string ShakeName = "ShakeHit";
+                string ShakeName = "ShakeHit_Normal";
                 ProCamera2DShake.Instance.Shake(ShakeName);
 
                 StopCoroutine(StopCooldown());

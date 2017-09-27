@@ -97,6 +97,8 @@ public class PlayerPunch : MonoBehaviour
     {
         //speedTw.Kill();
 
+        transform.parent.GetComponent<Animator>().SetTrigger("Attack_1");
+
         HitState = HitType.Attack2;
         HitDamage = HitlvlDamage[0];
 
@@ -131,6 +133,7 @@ public class PlayerPunch : MonoBehaviour
     void Hit2()
     {
         //speedTw.Kill();
+        transform.parent.GetComponent<Animator>().SetTrigger("Attack_2");
 
         HitState = HitType.Attack3;
         HitDamage = HitlvlDamage[1];
@@ -162,6 +165,7 @@ public class PlayerPunch : MonoBehaviour
     void Hit3()
     {
         //speedTw.Kill();
+        transform.parent.GetComponent<Animator>().SetTrigger("Attack_3");
 
         HitState = HitType.Attack1;
         HitDamage = HitlvlDamage[2];

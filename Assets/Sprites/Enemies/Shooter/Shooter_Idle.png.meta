@@ -1,0 +1,232 @@
+fileFormatVersion: 2
+guid: cbd1488ba07174f499c5a71248f2a6c2
+timeCreated: 1506524961
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Shooter_Idle_0
+    21300002: Shooter_Idle_1
+    21300004: Shooter_Idle_2
+    21300006: Shooter_Idle_3
+    21300008: Shooter_Idle_4
+    21300010: Shooter_Idle_5
+    21300012: Shooter_Idle_6
+    21300014: Shooter_Idle_7
+    21300016: Shooter_Idle_8
+    21300018: Shooter_Idle_9
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Shooter_Idle_0
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 0
+        width: 46
+        height: 56
+      alignment: 9
+      pivot: {x: 0.24842635, y: 0.020152217}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shooter_Idle_1
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 0
+        width: 47
+        height: 54
+      alignment: 9
+      pivot: {x: 0.30200148, y: 0.011330894}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shooter_Idle_2
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 0
+        width: 49
+        height: 54
+      alignment: 9
+      pivot: {x: 0.32569233, y: 0.023134498}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shooter_Idle_3
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 0
+        width: 48
+        height: 52
+      alignment: 9
+      pivot: {x: 0.3379968, y: 0.029308727}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shooter_Idle_4
+      rect:
+        serializedVersion: 2
+        x: 375
+        y: 0
+        width: 48
+        height: 51
+      alignment: 9
+      pivot: {x: 0.37517738, y: 0.025078598}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shooter_Idle_5
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 0
+        width: 47
+        height: 50
+      alignment: 9
+      pivot: {x: 0.32098714, y: 0.028328001}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shooter_Idle_6
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 0
+        width: 47
+        height: 54
+      alignment: 9
+      pivot: {x: 0.32912493, y: 0.03021666}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shooter_Idle_7
+      rect:
+        serializedVersion: 2
+        x: 649
+        y: 0
+        width: 46
+        height: 52
+      alignment: 9
+      pivot: {x: 0.30046812, y: 0.026857208}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shooter_Idle_8
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 0
+        width: 46
+        height: 51
+      alignment: 9
+      pivot: {x: 0.24781334, y: 0.035076946}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Shooter_Idle_9
+      rect:
+        serializedVersion: 2
+        x: 826
+        y: 0
+        width: 46
+        height: 50
+      alignment: 9
+      pivot: {x: 0.27829775, y: 0.033427157}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
