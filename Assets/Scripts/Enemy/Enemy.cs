@@ -15,8 +15,7 @@ public class Enemy : MonoBehaviour
         Sbire,
         Fly,
         Normal,
-        Shooter,
-        Big
+        Shooter
     }
 
 
@@ -167,7 +166,8 @@ public class Enemy : MonoBehaviour
 
         //Debug.Log("Searching +" + Searching);
         //Debug.Log("Attack Charge +" + AttackCharge);
-        rushTw.Kill();
+        if(enemyType == EnemyType.Normal)
+            rushTw.Kill();
 
         if (Life <= 0)
         {
@@ -226,7 +226,7 @@ public class Enemy : MonoBehaviour
         
 
 
-        if ((Mathf.Abs(transform.position.x - PlayerMovement.Singleton.transform.position.x) < CheckPlayerDistanceX/5 && (enemyType == EnemyType.Normal || enemyType == EnemyType.Big)) || (Mathf.Abs(transform.position.x - PlayerMovement.Singleton.transform.position.x) < CheckPlayerDistanceX) && enemyType == EnemyType.Fly)//(((Physics2D.Raycast(body.position, new Vector2(1 * Mathf.Sign(transform.localScale.x), -1), CheckPlayerDistance, layer) || (Physics2D.Raycast(body.position, new Vector2(0, -1), CheckPlayerDistance, layer))) && enemyType == EnemyType.Fly)))
+        if ((Mathf.Abs(transform.position.x - PlayerMovement.Singleton.transform.position.x) < CheckPlayerDistanceX/5 && enemyType == EnemyType.Normal) || (Mathf.Abs(transform.position.x - PlayerMovement.Singleton.transform.position.x) < CheckPlayerDistanceX) && enemyType == EnemyType.Fly)//(((Physics2D.Raycast(body.position, new Vector2(1 * Mathf.Sign(transform.localScale.x), -1), CheckPlayerDistance, layer) || (Physics2D.Raycast(body.position, new Vector2(0, -1), CheckPlayerDistance, layer))) && enemyType == EnemyType.Fly)))
         {
             if (!AttackCharge && Searching && !PlayerMovement.Singleton.IsStuned)
             {
@@ -255,7 +255,7 @@ public class Enemy : MonoBehaviour
 
                     body.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
 
-                    if (enemyType == EnemyType.Normal || enemyType == EnemyType.Big)
+                    if (enemyType == EnemyType.Normal)
                     {
 
                         attackTw = transform.DOMoveX(transform.position.x + AttackDistance * Mathf.Sign(tmpSide), .5f).OnComplete(() =>
@@ -310,7 +310,7 @@ public class Enemy : MonoBehaviour
 
             RaycastHit2D hit;
 
-            if (enemyType == EnemyType.Normal || enemyType == EnemyType.Big)
+            if (enemyType == EnemyType.Normal)
             {
 
                 hit = Physics2D.BoxCast(transform.position, Vector2.one * 1.4f, 90, Vector2.one, 1, layer);
@@ -350,58 +350,20 @@ public class Enemy : MonoBehaviour
         if(Mathf.Abs(transform.position.x - PlayerMovement.Singleton.transform.position.x) < CheckPlayerDistanceX && !PlayerMovement.Singleton.IsStuned)
         {
 
-            if (Searching && (enemyType == EnemyType.Normal || enemyType == EnemyType.Big || enemyType == EnemyType.Sbire))
+            //Debug.Log("PlayerFound1");
+            if (Searching && (enemyType == EnemyType.Normal || enemyType == EnemyType.Sbire))
             {
                 Debug.Log("PlayerFound");
                 moveTw.Kill();
                 Rush();
             }
 
-
-            //Debug.Log(JumpNumber);
-        }/*
-        else
-        {
-            rushTw.Kill();
-
-        }
-        
-            if (Searching)
-            {
-                Searching = false;
-                rushTw.Kill();
-                rushTw = null;
-                DOVirtual.DelayedCall(1, () => {
-                    Debug.Log("GO");
-                    Search();
-                });
-            }
             
-            if(rushTw != null) { 
-                Search();
-                Searching = false;
-            }*/
+        }
 
-
-        /*
-        if (Physics2D.Raycast(body.position, new Vector2(-Mathf.Sign(transform.localScale.x) * CheckPlayerDistance/MultiplierBack, 0), 3f, layer))
-        {
-            Debug.Log("PlayerFound");
-            Rush();
-            moveTw.Kill();
-            //Debug.Log(JumpNumber);
-        } else
-        {
-            rushTw.Kill();
-        }*/
-
-
-
-        //Debug.Log(Life);
-
-        Debug.DrawRay(body.position, new Vector2(Mathf.Sign(transform.localScale.x) * CheckPlayerDistanceX, 0), Color.green, .3f);
-        Debug.DrawRay(body.position, new Vector2(1 * -Mathf.Sign(transform.localScale.x) * CheckPlayerDistanceX / MultiplierBack, 0), Color.blue, .3f);
-        Debug.DrawRay(body.position, new Vector2(1 * -Mathf.Sign(transform.localScale.x) * CheckPlayerDistanceX, -6.5f), Color.green, .3f);
+       // Debug.DrawRay(body.position, new Vector2(Mathf.Sign(transform.localScale.x) * CheckPlayerDistanceX, 0), Color.green, .3f);
+       // Debug.DrawRay(body.position, new Vector2(1 * -Mathf.Sign(transform.localScale.x) * CheckPlayerDistanceX / MultiplierBack, 0), Color.blue, .3f);
+       // Debug.DrawRay(body.position, new Vector2(1 * -Mathf.Sign(transform.localScale.x) * CheckPlayerDistanceX, -6.5f), Color.green, .3f);
     }
     /*
     public void Attack()
@@ -447,9 +409,11 @@ public class Enemy : MonoBehaviour
 
     public void TakeHit()
     {
-        scaleTw.Kill();
+        scaleTw.Kill(true);
 
-        scaleTw = transform.DOShakeScale(0.3f, 1, 30, 90);
+        animator.SetBool("Running", false);
+
+        scaleTw = transform.DOShakeScale(.2f, 3, 30, 90);
 
         if (PlayerMovement.Singleton.animator.GetBool("Mode_Normal"))
         {

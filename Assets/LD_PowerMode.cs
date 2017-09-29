@@ -107,9 +107,9 @@ public class LD_PowerMode : MonoBehaviour {
             });
             PlayerMovement.Singleton.GetComponentInChildren<RainbowRotate>().enabled = false;
             PlayerMovement.Singleton.GetComponentsInChildren<SpriteRenderer>()[0].transform.DOLocalRotate(Vector3.zero, 0);
-            
-            UIManager.Singleton.QuoteCharacterStart();
-            UIManager.Singleton.CharacterQuote.GetComponent<Text>().text = "...";
+
+            UIManager.Singleton.quoteText = "...";
+            UIManager.Singleton.QuoteCharacterStart(4);
 
         });
 

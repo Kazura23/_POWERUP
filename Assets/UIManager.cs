@@ -14,9 +14,11 @@ public class UIManager : MonoBehaviour {
 
     public string quoteText;
 
+    private GameObject quote;
+
     [HideInInspector]
     public GameObject TitleScreen, PowerUplogo, aGameBy;
-    public GameObject CharacterQuote; 
+    public GameObject CharacterQuote, QuoteContainer; 
     public SpriteRenderer powerUpScreen;
     private Text creditsCookiez, creditsFlo, creditsPietro, creditsTom;
 
@@ -100,31 +102,43 @@ public class UIManager : MonoBehaviour {
 
 	}
 
-    public void QuoteCharacterStart()
+    public void QuoteCharacterStart(float timeQuote)
     {
-        CharacterQuote.GetComponent<Text>().text = quoteText;
-        UIManager.Singleton.CharacterQuote.SetActive(true);
-        DOVirtual.DelayedCall(3f, () => {
+        quote = Instantiate(CharacterQuote, QuoteContainer.transform.position, Quaternion.identity, QuoteContainer.transform);
+        quote.transform.localScale = Vector3.one;
+        quote.GetComponent<Text>().text = quoteText;
+        //Debug.Log("StartQuote");
+        //UIManager.Singleton.CharacterQuote.SetActive(true);
+        //CharacterQuote.GetComponent<RainbowColor>().enabled = true;
+        //CharacterQuote.GetComponent<RainbowScale>().enabled = true;
+        DOVirtual.DelayedCall(timeQuote, () => {
             QuoteCharacterStop();
         });
     }
 
     public void QuoteCharacterStop()
     {
-        UIManager.Singleton.CharacterQuote.GetComponent<RainbowColor>().enabled = false;
+        //Debug.Log("StopQuote");
+        Destroy(quote);
+        /*UIManager.Singleton.CharacterQuote.GetComponent<RainbowColor>().enabled = false;
+        CharacterQuote.GetComponent<RainbowScale>().enabled = false;
         UIManager.Singleton.CharacterQuote.GetComponent<Text>().DOFade(0, .3f).OnComplete(() => {
             UIManager.Singleton.CharacterQuote.SetActive(false);
-        });
+        });*/
     }
 
     // Update is called once per frame
     void Update () {
-        
 
-        Vector2 tmpPos = GameManager.Singleton.player.transform.position;
-        tmpPos.y -= 1;
-        CharacterQuote.transform.position = tmpPos;
 
+        if(quote != null)
+        {
+
+            Vector2 tmpPos = GameManager.Singleton.player.transform.position;
+            tmpPos.y -= 1;
+            quote.transform.position = tmpPos;
+
+        }
         //CharacterQuote.transform.DOMove(GameManager.Singleton.player.transform.position,0);
         //TitleScreen.transform.position = 
     }

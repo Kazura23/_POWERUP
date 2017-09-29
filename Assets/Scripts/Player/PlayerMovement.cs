@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour {
     [Header("JUMP")]
     public int JumpMax;
     public float JumpHeight;
-    public float JumpCooldown;
+    //public float JumpCooldown;
     public float JumpIncreaseSpeed = 12;
     private int JumpNumber;
     [Tooltip("Damages the enemies receive when Jumping on them")]
@@ -69,6 +69,7 @@ public class PlayerMovement : MonoBehaviour {
         DOVirtual.DelayedCall(.1f, () => {
             started = true;
         });
+        
     }
     
 
@@ -96,18 +97,28 @@ public class PlayerMovement : MonoBehaviour {
             body.constraints = RigidbodyConstraints2D.FreezePositionX;
             ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(false, 0);
             IsStuned = true;
-            transform.GetComponent<BoxCollider2D>().enabled = false;
-            transform.DOMoveY(0, .1f).OnComplete(() => {
-                body.constraints = RigidbodyConstraints2D.FreezeAll;
+
+            Physics2D.IgnoreLayerCollision(9, 10, true);
+
+            //transform.GetComponent<BoxCollider2D>().enabled = false;
+            transform.DOMoveY(transform.position.y, .1f).OnComplete(() => {
+                //body.constraints = RigidbodyConstraints2D.FreezeAll;
             });
 
             DOVirtual.DelayedCall(StunDuration, () =>
             {
                 GetComponentsInChildren<SpriteRenderer>()[0].DOFade(1f, .5f);
-                IsStuned = false;
-                transform.GetComponent<BoxCollider2D>().enabled = true;
-                body.constraints = RigidbodyConstraints2D.FreezeRotation;
-                ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(true, 0);
+                transform.DOMoveY(transform.position.y + .5f, .15f).OnComplete(() => {
+                    transform.DOMoveY(transform.position.y - .5f, .15f).OnComplete(()=> {
+                        UIManager.Singleton.quoteText = "Go!";
+                        UIManager.Singleton.QuoteCharacterStart(1f);
+                        IsStuned = false;
+                        Physics2D.IgnoreLayerCollision(9, 10, false);
+                        body.constraints = RigidbodyConstraints2D.FreezeRotation;
+                        ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(true, 0);
+                    });
+                });
+                //transform.GetComponent<BoxCollider2D>().enabled = true;
             });
         }
         
@@ -115,7 +126,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public void Jump()
     {
-        if ((JumpNumber < JumpMax && JumpNumber == 0 ) || (JumpNumber == 1  && JumpNumber < JumpMax))
+        if ((JumpNumber < JumpMax)) //&& JumpNumber == 0 ) || (JumpNumber == 1  && JumpNumber < JumpMax))
         {
 
             
@@ -156,6 +167,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             Grounded = true;
             JumpNumber = 0;
+            //Debug.Log(JumpNumber);
         }
         else
         {

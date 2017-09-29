@@ -24,7 +24,7 @@ public class LD_VeryBeginning : MonoBehaviour {
         });
         PlayerMovement.Singleton.MoveRight();
         PlayerMovement.Singleton.transform.DOMoveY(15, 0);
-        PlayerMovement.Singleton.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionY;
+        PlayerMovement.Singleton.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
     }
 
 	// Use this for initialization
@@ -37,15 +37,17 @@ public class LD_VeryBeginning : MonoBehaviour {
         PlayerMovement.Singleton.transform.DOMoveY(0, 1.5f).SetEase(Ease.InElastic, -1, .5f);
         //PlayerMovement.Singleton.transform.DOMoveX(-8, 0);
         PlayerMovement.Singleton.transform.DOMoveX(-15, 0);
-        PlayerMovement.Singleton.transform.DOMoveX(PlayerMovement.Singleton.transform.position.x + 3f, 1.5f).SetEase(Ease.InElastic, - 1, .5f).OnComplete(() => {
+        PlayerMovement.Singleton.transform.DOLocalMoveX(PlayerMovement.Singleton.transform.position.x + 3f, 1.5f).SetEase(Ease.InElastic, - 1, .5f).OnComplete(() => {
+            PlayerMovement.Singleton.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
             string ShakeName = "ShakeKill";
             ProCamera2DShake.Instance.Shake(ShakeName);
-            UIManager.Singleton.QuoteCharacterStart();
+            UIManager.Singleton.quoteText = "Alright, let's kick some asses!";
+            UIManager.Singleton.QuoteCharacterStart(3.5f);
             DOVirtual.DelayedCall(1, () => {
                 GameManager.Singleton.CanPlay = true;
                 DOVirtual.DelayedCall(3.5f, () => {
 
-                   UIManager.Singleton.QuoteCharacterStop();
+                    UIManager.Singleton.QuoteCharacterStop();
                     
                 });
             });

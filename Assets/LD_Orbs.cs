@@ -19,6 +19,7 @@ public class LD_Orbs : MonoBehaviour {
 
     public TransformationType transformation;
 
+    [HideInInspector]
     public bool canZoom;
 
     public GameObject powerMode;
@@ -61,8 +62,9 @@ public class LD_Orbs : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //DEV COMMANDS
-
-        if ((Input.GetKeyDown("a") && orbNumber == 1) || (Input.GetKeyDown("z") && orbNumber == 2) || (Input.GetKeyDown("e") && orbNumber == 3) || (Input.GetKeyDown("r") && orbNumber == 4))
+        
+                
+        if ((Input.GetKeyDown("a") && orbNumber == 1) || (Input.GetKeyDown("z") && orbNumber == 2) || (Input.GetKeyDown("e") && orbNumber == 3) || (Input.GetKeyDown("r") && orbNumber == 4) || (Input.GetKeyDown("t") && orbNumber == 5) || (Input.GetKeyDown("y") && orbNumber == 6) || (Input.GetKeyDown("u") && orbNumber == 7) || (Input.GetKeyDown("i") && orbNumber == 8))
         {
                 PlayerMovement.Singleton.quitWindow = true;
 
@@ -185,15 +187,17 @@ public class LD_Orbs : MonoBehaviour {
             canZoom = false;
             UIManager.Singleton.powerUpScreen.GetComponent<RainbowColor>().enabled = false;
             UIManager.Singleton.powerUpScreen.DOFade(0, colorSwitchTime * 5f);
-            
+
+
+
             GameManager.Singleton.mainCamera.DOOrthoSize(5.76f, .5f).SetEase(Ease.InElastic).OnComplete(()=> {
                 //ControllerPlayer.Singleton.player.controllers.maps.SetMapsEnabled(true, 0);
                 GameManager.Singleton.CanPlay = true;
+
+                UIManager.Singleton.QuoteCharacterStart(3f);
                 PlayerMovement.Singleton.body.constraints = RigidbodyConstraints2D.FreezeRotation;
                 DOTween.PlayAll();
-
-                UIManager.Singleton.QuoteCharacterStart();
-                UIManager.Singleton.CharacterQuote.GetComponent<Text>().text = "BADASS!!";
+                
 
                 DOVirtual.DelayedCall(PowerUpDuration, () =>
                 {
@@ -215,6 +219,17 @@ public class LD_Orbs : MonoBehaviour {
         if(orb == 1)
         {
 
+            AudioManager.Singleton.transform.GetComponentsInChildren<AudioSource>()[0].DOFade(0, .5f);
+            AudioManager.Singleton.transform.GetComponentsInChildren<AudioSource>()[1].Play();
+            AudioManager.Singleton.transform.GetComponentsInChildren<AudioSource>()[1].DOFade(1, .75f);
+            UIManager.Singleton.quoteText = "Game's over, motherfuckers";
+
+
+        }
+
+        if(orb == 2)
+        {
+            UIManager.Singleton.quoteText = "So, you wanna play?";
         }
 
         if(orb == 3)

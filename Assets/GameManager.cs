@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
 
     public Camera mainCamera;
     public GameObject player;
+    public GameObject enemiesContainer;
     public string ScreenShake;
     public bool CanPlay;
 
