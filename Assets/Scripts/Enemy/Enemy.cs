@@ -96,6 +96,9 @@ public class Enemy : MonoBehaviour
             animator.SetBool("Running", true);
 
             transform.DOScaleX(1f, 0f);
+
+            //Debug.Log("SearchingRight");
+
             moveTw = transform.DOMoveX(transform.position.x + Distance, TimeDistance).SetEase(easeMove).OnComplete(() =>
             {
                 transform.DOScaleX(-1f, 0f);
@@ -114,6 +117,9 @@ public class Enemy : MonoBehaviour
         if (Searching)
         {
             animator.SetBool("Running", true);
+
+            //Debug.Log("SearchingLeft");
+
 
             transform.DOScaleX(-1, 0f);
             moveTw = transform.DOMoveX(transform.position.x - Distance, TimeDistance).SetEase(easeMove).OnComplete(() =>
@@ -167,7 +173,13 @@ public class Enemy : MonoBehaviour
         //Debug.Log("Searching +" + Searching);
         //Debug.Log("Attack Charge +" + AttackCharge);
         if(enemyType == EnemyType.Normal)
-            rushTw.Kill();
+        {
+
+            if (Searching)
+            {
+                rushTw.Kill();
+            }
+        }
 
         if (Life <= 0)
         {
@@ -320,7 +332,7 @@ public class Enemy : MonoBehaviour
 
                 if (hit.collider != null)
                 {
-                    if (hit.collider.gameObject.tag == "Player")
+                    if (hit.collider.gameObject.tag == "Player" && !PlayerMovement.Singleton.IsStuned)
                     {
                         //Debug.Log("Player is STUN");
                         //hit.transform.DOLocalMoveX(PushbackCharacter * Mathf.Sign(Side), .0f).SetEase(Ease.InBounce);
@@ -350,7 +362,7 @@ public class Enemy : MonoBehaviour
         if(Mathf.Abs(transform.position.x - PlayerMovement.Singleton.transform.position.x) < CheckPlayerDistanceX && !PlayerMovement.Singleton.IsStuned)
         {
 
-            //Debug.Log("PlayerFound1");
+            Debug.Log("PlayerFound1");
             if (Searching && (enemyType == EnemyType.Normal || enemyType == EnemyType.Sbire))
             {
                 Debug.Log("PlayerFound");
@@ -441,7 +453,7 @@ public class Enemy : MonoBehaviour
         body.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
         transform.DOLocalMoveX(body.transform.localPosition.x - PushbackDistance * Side, PushbackDuration).OnComplete(() =>
         {
-
+            Debug.Log("Yea");
             Searching = true;
             if (Side == 1)
                 SearchRight();

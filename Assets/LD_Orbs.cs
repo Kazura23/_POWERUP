@@ -82,7 +82,7 @@ public class LD_Orbs : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.gameObject.tag == "Player")
+        if(col.gameObject.tag == "Player" && !PlayerMovement.Singleton.IsStuned)
         {
             OnTakenOrb(orbNumber);
 
